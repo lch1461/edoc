@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- Controller类要经过SpringIoC（控制反转）的实例化 -->
+	<!-- 扫描Controller注解 -->
+	<context:component-scan base-package="cn.ebook.controller"/>
+	
+	<!-- 配置Controller注解 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 启动注解自动装配 -->
+	<mvc:annotation-driven>
+		<!-- 配置消息转换器 -->
+		<mvc:message-converters>
+			<!-- string类型 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+					<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+
+			<!-- json格式的消息转换器 -->
+			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+					<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+
+				<!-- 配置fastjson时间转换风格 -->
+				<property name="features">
+					<list>
+					<value>WriteDateUseDateFormat</value>
+					</list>
+				</property>
+			</bean>
+
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+</beans>

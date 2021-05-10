@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ebook.mapper.EbookEntryMapper">
+
+    <resultMap id="entryMap" type="cn.ebook.entity.EbookEntry">
+        <id property="id" column="id"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="title" column="title"/>
+        <result property="summary" column="summary"/>
+        <result property="uploadUser" column="uploadUser"/>
+        <result property="createDate" column="createDate"/>
+    </resultMap>
+
+    <select id="getEbookEntryByCid" resultMap="entryMap">
+        select * from ebook_entry
+            <trim prefix="WHERE">
+                <if test="cid!=null and cid!=0">
+                    categoryId = #{cid}
+                </if>
+            </trim>
+    </select>
+
+    <delete id="deleteEntryById">
+        delete from ebook_entry
+        where id = #{id}
+    </delete>
+
+    <insert id="add">
+        insert into ebook_entry(categoryId,title,summary,uploadUser,createDate)
+        values (#{categoryId},#{title},#{summary},#{uploadUser},#{createDate})
+    </insert>
+
+    <select id="updateById" resultMap="entryMap">
+        select * from ebook_entry
+        where id = #{id}
+    </select>
+
+    <update id="updateEntry">
+        UPDATE
+          ebook.ebook_entry
+        SET
+          `title` = #{title},
+          `summary` = #{summary},
+          `uploadUser` = #{uploadUser},
+          `createDate` = #{createDate}
+        WHERE `id` = #{id} ;
+    </update>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.project.mapper.ProjectinfoMapper">
+
+<select id="getProjectInfoByPage" resultType="cn.project.entity.Projectinfo">
+    SELECT * FROM `projectinfo`
+		<trim prefix="WHERE">
+			<if test="status !=null and status!=-1">
+				 `status`=#{status}
+			</if>
+		</trim>
+		LIMIT #{page},#{limit}
+</select>
+
+<select id="getProjectInfoCount" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM `projectinfo`
+		<trim prefix="WHERE">
+			<if test="status !=null and status!=-1">
+				 `status`=#{status}
+			</if>
+		</trim>
+</select>
+
+<select id="getProjectInfoById" resultType="cn.project.entity.Projectinfo">
+    SELECT * FROM `projectinfo` WHERE id=#{id}
+</select>
+
+<update id="modifyProject">
+    UPDATE `projectinfo`
+		SET status = #{status}
+		WHERE id=#{id}
+</update>
+</mapper>
